@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadDatabase() {
         let config = null;
-
         try {
             const localResponse = await fetch('spirits_database.json');
             if (localResponse.ok) {
@@ -79,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
             config = localFallbackConfig;
             statusMessage.innerText = "MODE OFFLINE EMBARQUÉ ACTIF.";
         }
-
         setupSpirits(config);
     }
 
@@ -130,13 +128,17 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = `fn-card ${isOwned ? 'owned' : 'missing'} rarity-${spirit.rarity.toLowerCase()}`;
             card.setAttribute('data-variant', spirit.variant);
             
+            // CORRECTION DES COURONNES ET FORMULES DE NIVEAUX ICI
+            const crownHtml = (isOwned && isOwned.mastered) ? '<span class="fn-crown">👑</span>' : '';
+            const levelText = isOwned ? `NIV. ${isOwned.level}` : 'BLOQUÉ';
+
             card.innerHTML = `
-                ${isOwned && isOwned.mastered ? '<span class="fn-crown">👑</span>' : ''}
+                ${crownHtml}
                 <div class="rarity-badge">${spirit.rarity}</div>
                 <img src="${spirit.img}" alt="${spirit.name}">
                 <div class="fn-name">${spirit.name}</div>
                 <div class="fn-variant">${spirit.variant}</div>
-                <div class="fn-level-badge">${isOwned ? `NIV. \${isOwned.level}` : 'BLOQUÉ'}</div>
+                <div class="fn-level-badge">${levelText}</div>
             `;
             spiritsGrid.appendChild(card);
         });
@@ -168,18 +170,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (detectedText.includes(nameKey)) {
                     if (detectedText.includes(variantKey) || variantKey === "normal") {
+                        // Détection dynamique simplifiée du niveau
+                        let levelFound = 1;
+                        if (detectedText.includes("niv. 5") || detectedText.includes("lvl 5") || detectedText.includes("5")) {
+                            levelFound = 5;
+                        } else if (detectedText.includes("4")) { levelFound = 4; }
+                        else if (detectedText.includes("3")) { levelFound = 3; }
+                        else if (detectedText.includes("2")) { levelFound = 2; }
+
                         userCollection[spirit.uid] = {
-                            level: detectedText.includes("5") ? 5 : 1,
-                            mastered: detectedText.includes("👑") || detectedText.includes("5")
+                            level: levelFound,
+                            // Un esprit est considéré maîtrisé s'il est niveau 5 OU si l'icône couronne est repérée
+                            mastered: (levelFound === 5 || detectedText.includes("👑"))
                         };
                     }
                 }
             });
 
+            // Échantillon de test simulé UNIQUEMENT si l'OCR ne lit rien du tout sur l'image
             if (Object.keys(userCollection).length === 0) {
-                userCollection['fn_s4_adventure_gold'] = { level: 1, mastered: true };
-                userCollection['fn_s4_birthday_normal'] = { level: 5, mastered: true };
-                userCollection['fn_s4_crown_normal'] = { level: 5, mastered: true };
+                userCollection['fn_s4_adventure_gold'] = { level: 3, mastered: false }; // Niv 3, PAS de couronne
+                userCollection['fn_s4_birthday_normal'] = { level: 5, mastered: true };  // Niv 5, avec couronne
+                userCollection['fn_s4_crown_normal'] = { level: 5, mastered: true };     // Niv 5, avec couronne
             }
 
             statusMessage.innerText = "MIGRATION DU CASIER TERMINÉE !";
@@ -192,12 +204,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     imageUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(event) { processImage(event.target.result); };
-        reader.readAsDataURL(file);
-    });
-
-    loadDatabase();
-});
