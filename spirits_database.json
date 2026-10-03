@@ -1,0 +1,37 @@
+{
+    "variants": [
+        {"name": "Normal", "color": "3b82f6"},
+        {"name": "Gold", "color": "eab308"},
+        {"name": "Cheat Master", "color": "22c55e"},
+        {"name": "Loot Hacker", "color": "6366f1"},
+        {"name": "Bounty Hunter", "color": "a855f7"},
+        {"name": "Trick or Treat", "color": "f97316"}
+    ],
+    "spirits": [
+        {"id": "bush", "name": "Bush", "rarity": "RARE"},
+        {"id": "adventure", "name": "Adventure", "rarity": "RARE"},
+        {"id": "jonesy", "name": "Jonesy", "rarity": "RARE"},
+        {"id": "8bit", "name": "8-Bit", "rarity": "RARE"},
+        {"id": "storm_scout", "name": "Storm Scout", "rarity": "RARE"},
+        {"id": "mega_man", "name": "Mega Man", "rarity": "RARE", "restricted": ["Normal"]},
+        {"id": "onigiri", "name": "Onigiri", "rarity": "RARE"},
+        {"id": "birthday", "name": "Birthday", "rarity": "RARE"},
+        {"id": "sonic", "name": "Sonic", "rarity": "EPIC"},
+        {"id": "tails", "name": "Tails", "rarity": "EPIC"},
+        {"id": "shadow", "name": "Shadow", "rarity": "EPIC"},
+        {"id": "pond", "name": "Pond", "rarity": "EPIC"},
+        {"id": "overshield", "name": "Overshield", "rarity": "EPIC"},
+        {"id": "morgana", "name": "Morgana", "rarity": "EPIC"},
+        {"id": "dumpster_dive", "name": "Dumpster Dive", "rarity": "EPIC"},
+        {"id": "jackrabbit", "name": "Jackrabbit", "rarity": "LEGENDARY"},
+        {"id": "x_ray", "name": "X-Ray", "rarity": "LEGENDARY"},
+        {"id": "killswitch", "name": "Killswitch", "rarity": "LEGENDARY"},
+        {"id": "crash_bandicoot", "name": "Crash Bandicoot", "rarity": "LEGENDARY"},
+        {"id": "blinky", "name": "Blinky", "rarity": "LEGENDARY"},
+        {"id": "the_deer", "name": "The Deer", "rarity": "LEGENDARY"},
+        {"id": "vampire", "name": "Vampire", "rarity": "LEGENDARY"},
+        {"id": "crown", "name": "Crown", "rarity": "MYTHIC"},
+        {"id": "klombo", "name": "Klombo", "rarity": "MYTHIC"},
+        {"id": "spooky_dash", "name": "Spooky Dash", "rarity": "MYTHIC"}
+    ]
+}
